@@ -1,0 +1,9 @@
+CREATE OR REPLACE TRIGGER bid_bir
+BEFORE INSERT ON bids
+FOR EACH ROW
+
+BEGIN
+  SELECT bid_seq.NEXTVAL
+  INTO   :new.bid_id
+  FROM   dual;
+END;
