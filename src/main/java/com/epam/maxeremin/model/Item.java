@@ -14,13 +14,13 @@ public class Item {
     private int startPrice;
     private int timeLeft;
     private Date startBiddingDate;
-    private boolean buyItNow;
+    private int buyItNow;
     private double bidIncrement;
 
     public Item() {
     }
 
-    public Item(int id, int seller, String title, String description, int startPrice, int timeLeft, Date startBiddingDate, boolean buyItNow, double bidIncrement) {
+    public Item(int id, int seller, String title, String description, int startPrice, int timeLeft, Date startBiddingDate, int buyItNow, double bidIncrement) {
         this.id = id;
         this.seller = seller;
         this.title = title;
@@ -88,11 +88,11 @@ public class Item {
         this.startBiddingDate = startBiddingDate;
     }
 
-    public boolean isBuyItNow() {
+    public int isBuyItNow() {
         return buyItNow;
     }
 
-    public void setBuyItNow(boolean buyItNow) {
+    public void setBuyItNow(int buyItNow) {
         this.buyItNow = buyItNow;
     }
 

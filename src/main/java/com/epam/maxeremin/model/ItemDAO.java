@@ -1,6 +1,8 @@
 package com.epam.maxeremin.model;
 
+import javax.annotation.Resource;
 import javax.naming.NamingException;
+import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -10,10 +12,6 @@ import java.util.ArrayList;
  * Date: 13-Jul-17
  */
 public class ItemDAO implements IItemDAO {
-
-    // Dependency injection isn't supported in Tomcat 7 @Resource(name = "jdbc/mpdb")
-    private OracleDAO oracleDAO;
-    private DAOFactory daoFactory = new DAOFactory();
 
     @Override
     public void add(Item item) {
@@ -33,16 +31,15 @@ public class ItemDAO implements IItemDAO {
     @Override
     public ArrayList<Item> getAll() {
         ArrayList<Item> items = new ArrayList<Item>();
-        try (//Connection con = OracleDAO.getInstance().getDataSource().getConnection();
-             Connection con = DAOFactory.createConnection();
+        try (Connection con = OracleDAO.getDataSource().getConnection();
              PreparedStatement ps = printStatement(con);
              ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
-                items.add(new Item(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getInt(5), rs.getInt(6), rs.getDate(7), rs.getBoolean(8), rs.getDouble(9)));
+                items.add(new Item(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getInt(5), rs.getInt(6), rs.getDate(7), rs.getInt(8), rs.getDouble(9)));
             }
 
-        } catch (SQLException | NamingException e) {
+        } catch (SQLException e){//| NamingException e) {
             e.printStackTrace();
         }
         return items;

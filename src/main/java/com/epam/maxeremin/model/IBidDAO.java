@@ -9,4 +9,6 @@ public interface IBidDAO {
     void add(Bid bid);
     void edit(Bid bid);
     void delete(Bid bid);
+
+    Bid getMaxBid(int itemId);
 }

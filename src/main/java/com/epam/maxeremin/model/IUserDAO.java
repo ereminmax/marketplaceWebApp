@@ -7,5 +7,8 @@ package com.epam.maxeremin.model;
  */
 public interface IUserDAO {
     void add(User user);
-    void get(int id);
+    User getSellerById(int id);
+    boolean isRegistered(String login);
+
+    User findBestBidder(int bidderId);
 }

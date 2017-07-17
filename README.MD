@@ -15,7 +15,7 @@ Read an example on https://www.mkyong.com/maven/how-to-add-oracle-jdbc-driver-in
 
 Build the project: mvn clean install.
 Run the project: mvn tomcat7:run
-Run your favourite browser and go to http://localhost:8080
+Run your favourite browser and go to http://localhost:8888
 # How to use
 # Licence
 # Contact
