@@ -12,4 +12,5 @@ public interface IItemDAO {
     void remove(Item item);
     void edit(Item item);
     ArrayList<Item> getAll();
+    ArrayList<Item> search(String keyWord);
 }

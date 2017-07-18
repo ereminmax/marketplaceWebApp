@@ -39,50 +39,35 @@ public class ItemDAO implements IItemDAO {
                 items.add(new Item(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getInt(5), rs.getInt(6), rs.getDate(7), rs.getInt(8), rs.getDouble(9)));
             }
 
-        } catch (SQLException e){//| NamingException e) {
+        } catch (SQLException e){
             e.printStackTrace();
         }
         return items;
+    }
 
-        /*System.out.println("-------- Oracle JDBC Connection Testing ------");
-
-        try {
-
-            Class.forName("oracle.jdbc.driver.OracleDriver");
-
-        } catch (ClassNotFoundException e) {
-
-            System.out.println("Where is your Oracle JDBC Driver?");
-            e.printStackTrace();
-            //return null;
-
-        }
-
-        System.out.println("Oracle JDBC Driver Registered!");
-
+    @Override
+    public ArrayList<Item> search(String keyWord) {
         ArrayList<Item> items = new ArrayList<Item>();
-        Connection connection = null;
+        try (Connection con = OracleDAO.getDataSource().getConnection();
+             PreparedStatement ps = searchStatement(con, keyWord);
+             ResultSet rs = ps.executeQuery()) {
 
-        try {
-
-            String sql = "SELECT * FROM Items";
-            connection = DriverManager.getConnection(
-                    "jdbc:oracle:thin:@localhost:1521:xe", "maxim", "root");
-            PreparedStatement ps = connection.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                items.add(new Item(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getInt(5), rs.getInt(6), rs.getDate(7), rs.getBoolean(8), rs.getDouble(9)));
+                items.add(new Item(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getInt(5), rs.getInt(6), rs.getDate(7), rs.getInt(8), rs.getDouble(9)));
             }
 
-        } catch (SQLException e) {
-
-            System.out.println("Connection Failed! Check output console");
+        } catch (SQLException e){
             e.printStackTrace();
-            //return null;
-
         }
+        return items;
+    }
 
-        return items;*/
+    private PreparedStatement searchStatement(Connection con, String keyWord) throws SQLException {
+        //String sql = "SELECT * FROM maxim.Items WHERE title LIKE '%?%'";
+        String sql = "SELECT * FROM maxim.Items WHERE title = ?";
+        PreparedStatement ps = con.prepareStatement(sql);
+        ps.setString(1, keyWord);
+        return ps;
     }
 
     private PreparedStatement printStatement(Connection con) throws SQLException {

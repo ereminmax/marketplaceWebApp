@@ -21,17 +21,13 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
-@WebServlet(name = "home", urlPatterns = {"/home", "/loginPage", "/registerPage", "/login", "/register"})
+@WebServlet(name = "home", urlPatterns = {"/home", "/loginPage", "/registerPage", "/login", "/register", "/search", "/logout"})
 public class Main extends HttpServlet {
     MainController controller = MainController.getInstance();
 
     public void doGet(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws ServletException, IOException {
 
         String requestURI = httpServletRequest.getRequestURI();
-
-        /*if (requestURI.equals("/home")) {
-            httpServletResponse.sendRedirect("/guestStore");
-        }*/
 
         switch (requestURI) {
             case "/home": {
@@ -46,19 +42,28 @@ public class Main extends HttpServlet {
                 httpServletResponse.sendRedirect( "register.html");
                 break;
             }
+            case "/search": {
+                httpServletRequest.getRequestDispatcher("/searchResults").forward(httpServletRequest, httpServletResponse);
+            }
         }
     }
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
         String requestURI = request.getRequestURI();
         HttpSession session = request.getSession(true);
 
         switch (requestURI) {
             case "/login": {
+                User user = null;
                 // if registered then get object of this user and set it to the session attribute
-                if (controller.isRegistered(request, response)) {
-                    //User user = controller.login(request, response);
-                    //session.setAttribute("user", user);
+                if (request.getAttribute("user") == null) {
+                    user = controller.login(request, response);
+                }
+                if (user == null) {
+                    // todo сообщение что пара логин пароль не совпадают либо пользователь уже вошел в систему
+                } else {
+                    session.setAttribute("user", user);
                 }
                 break;
             }
@@ -66,13 +71,14 @@ public class Main extends HttpServlet {
                 if (controller.isRegistered(request, response)) {
                     // todo сообщение что данный логин зарегистрирован
                 } else {
-                    //controller.register(request, response);
-                    response.sendRedirect("/loginPage");
+                    controller.register(request, response);
+                    response.sendRedirect("/login.html");
                 }
                 break;
             }
-            case "/search": {
-
+            case "/logout": {
+                session.removeAttribute("user");
+                response.sendRedirect( "login.html");
             }
         }
     }

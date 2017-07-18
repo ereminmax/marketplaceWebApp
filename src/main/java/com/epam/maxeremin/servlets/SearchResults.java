@@ -3,12 +3,9 @@ package com.epam.maxeremin.servlets;
 /**
  * Author: Maxim_Eremin
  * Email: Maxim_Eremin@epam.com
- * Date: 17-Jul-17
+ * Date: 18-Jul-17
  */
 import com.epam.maxeremin.controller.MainController;
-import com.epam.maxeremin.model.IItemDAO;
-import com.epam.maxeremin.model.Item;
-import com.epam.maxeremin.model.ItemDAO;
 import com.epam.maxeremin.model.ItemTable;
 
 import javax.servlet.ServletException;
@@ -20,15 +17,17 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
-@WebServlet(name = "guestStore", urlPatterns = "/guestStore")
-public class GuestStore extends HttpServlet {
+@WebServlet(name = "searchResults", urlPatterns = "/searchResults")
+public class SearchResults extends HttpServlet {
 
     MainController controller = MainController.getInstance();
-    IItemDAO itemDAO = new ItemDAO();
 
     public void doGet(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws ServletException, IOException {
+
+        String searchKeyWord = httpServletRequest.getParameter("keyWord");
         httpServletResponse.setContentType("text/html");
         PrintWriter out = httpServletResponse.getWriter();
+
         // Header of the table
         out.println("<head>\n" +
                 "<meta charset=\"UTF-8\">\n" +
@@ -39,18 +38,7 @@ public class GuestStore extends HttpServlet {
                 "<table border=1><tr>\n" +
                 "<th>Title</th>\n<th>Description</th>\n<th>Seller</th><th>Start Price</th><th>Bid increment</th><th>Max Bid</th><th>Bidder</th><th>Stop Date</th>\n</tr>\n");
 
-        // Writes the content from the Items table
-        /*ArrayList<Item> items = itemDAO.getAll();
-        for (Item item: items) {
-            out.println(
-                    "<tr>\n<td>" + item.getTitle() +
-                    "</td>\n<td>" + item.getDescription() +
-                    "</td>\n<td>" + item.getSeller() +
-                    "</td>\n</tr>\n"
-            );
-        }*/
-
-        ArrayList<ItemTable> itemTables = controller.getReadableItemList();
+        ArrayList<ItemTable> itemTables = controller.getReadableResults(searchKeyWord);
 
         for (ItemTable item: itemTables) {
             out.println("<tr>");
