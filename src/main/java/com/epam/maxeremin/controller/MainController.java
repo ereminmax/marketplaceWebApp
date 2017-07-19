@@ -72,8 +72,13 @@ public class MainController {
     }
 
     public User login(HttpServletRequest request, HttpServletResponse response) {
-        String login = request.getParameter("login");
-        String password = request.getParameter("password");
+        String login = "";
+        String password = "";
+
+        if (request.getParameter("login") != null && request.getParameter("password") != null) {
+            login = request.getParameter("login");
+            password = request.getParameter("password");
+        }
 
         return userDAO.getLoggedInUser(login, password);
     }

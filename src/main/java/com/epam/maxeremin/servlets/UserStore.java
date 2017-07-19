@@ -3,7 +3,7 @@ package com.epam.maxeremin.servlets;
 /**
  * Author: Maxim_Eremin
  * Email: Maxim_Eremin@epam.com
- * Date: 17-Jul-17
+ * Date: 19-Jul-17
  */
 import com.epam.maxeremin.controller.MainController;
 import com.epam.maxeremin.model.ItemTable;
@@ -17,8 +17,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
-@WebServlet(name = "guestStore", urlPatterns = "/guestStore")
-public class GuestStore extends HttpServlet {
+@WebServlet(name = "userStore", urlPatterns = "/userStore")
+public class UserStore extends HttpServlet {
 
     MainController controller = MainController.getInstance();
 
@@ -33,7 +33,7 @@ public class GuestStore extends HttpServlet {
                 "<body>\n" +
                 "<h1>All items</h1>\n" +
                 "<table border=1><tr>\n" +
-                "<th>Title</th>\n<th>Description</th>\n<th>Seller</th><th>Start Price</th><th>Bid increment</th><th>Max Bid</th><th>Bidder</th><th>Stop Date</th>\n</tr>\n");
+                "<th>Title</th>\n<th>Description</th>\n<th>Seller</th><th>Start Price</th><th>Bid increment</th><th>Max Bid</th><th>Bidder</th><th>Stop Date</th><th>Bidding Form</th>\n</tr>\n");
 
         ArrayList<ItemTable> itemTables = controller.getReadableItemList();
 
@@ -48,6 +48,11 @@ public class GuestStore extends HttpServlet {
             out.println("<td>" + item.getBid() + "</td>");
             out.println("<td>" + item.getBuyer() + "</td>");
             out.println("<td>" + item.getStopDate() + "</td>");
+
+            out.println("<td><form method=\"post\" action=\"bid\">\n<label>Password</label>\n" +
+                    "    <input name=\"bidAmount\" type=\"text\" id=\"bidAmount\">\n" +
+                    "    <button type=\"submit\">Make bid</button>\n" +
+                    "</form></td>");
 
             out.println("</tr>");
         }
