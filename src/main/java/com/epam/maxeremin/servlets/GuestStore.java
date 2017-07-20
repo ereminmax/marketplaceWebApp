@@ -33,13 +33,14 @@ public class GuestStore extends HttpServlet {
                 "<body>\n" +
                 "<h1>All items</h1>\n" +
                 "<table border=1><tr>\n" +
-                "<th>Title</th>\n<th>Description</th>\n<th>Seller</th><th>Start Price</th><th>Bid increment</th><th>Max Bid</th><th>Bidder</th><th>Stop Date</th>\n</tr>\n");
+                "<th>Id</th>\n<th>Title</th>\n<th>Description</th>\n<th>Seller</th><th>Start Price</th><th>Bid increment</th><th>Max Bid</th><th>Bidder</th><th>Stop Date</th>\n</tr>\n");
 
         ArrayList<ItemTable> itemTables = controller.getReadableItemList();
 
         for (ItemTable item: itemTables) {
             out.println("<tr>");
 
+            out.println("<td>" + item.getId() + "</td>");
             out.println("<td>" + item.getTitle() + "</td>");
             out.println("<td>" + item.getDescription() + "</td>");
             out.println("<td>" + item.getSeller() + "</td>");

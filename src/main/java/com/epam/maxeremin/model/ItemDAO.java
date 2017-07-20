@@ -1,8 +1,5 @@
 package com.epam.maxeremin.model;
 
-import javax.annotation.Resource;
-import javax.naming.NamingException;
-import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -15,7 +12,12 @@ public class ItemDAO implements IItemDAO {
 
     @Override
     public void add(Item item) {
-
+        try (Connection con = OracleDAO.getDataSource().getConnection();
+             PreparedStatement ps = addStatement(con, item)) {
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -25,7 +27,12 @@ public class ItemDAO implements IItemDAO {
 
     @Override
     public void edit(Item item) {
-
+        try (Connection con = OracleDAO.getDataSource().getConnection();
+             PreparedStatement ps = updateStatement(con, item)) {
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -62,6 +69,30 @@ public class ItemDAO implements IItemDAO {
         return items;
     }
 
+    @Override
+    public Item findItemById(int itemId) {
+        Item item = null;
+        try (Connection con = OracleDAO.getDataSource().getConnection();
+             PreparedStatement ps = searchById(con, itemId);
+             ResultSet rs = ps.executeQuery()) {
+
+            if (rs.next()) {
+                item = new Item(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getInt(5), rs.getInt(6), rs.getDate(7), rs.getInt(8), rs.getDouble(9));
+            }
+
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+        return item;
+    }
+
+    private PreparedStatement searchById(Connection con, int itemId) throws SQLException {
+        String sql = "SELECT * FROM maxim.Items WHERE item_id = ?";
+        PreparedStatement ps = con.prepareStatement(sql);
+        ps.setInt(1, itemId);
+        return ps;
+    }
+
     private PreparedStatement searchStatement(Connection con, String keyWord) throws SQLException {
         //String sql = "SELECT * FROM maxim.Items WHERE title LIKE '%?%'";
         String sql = "SELECT * FROM maxim.Items WHERE title = ?";
@@ -73,6 +104,40 @@ public class ItemDAO implements IItemDAO {
     private PreparedStatement printStatement(Connection con) throws SQLException {
         String sql = "SELECT * FROM maxim.Items";
         PreparedStatement ps = con.prepareStatement(sql);
+        return ps;
+    }
+
+    private PreparedStatement addStatement(Connection con, Item item) throws SQLException {
+        String sql = "INSERT INTO maxim.Items (seller_id, title, description, start_price, time_left, start_bidding_date, buy_it_now, bid_increment) values (?, ?, ?, ?, ?, ?, ?, ?)";
+
+        PreparedStatement ps = con.prepareStatement(sql);
+        ps.setInt(1, item.getSeller());
+        ps.setString(2, item.getTitle());
+        ps.setString(3, item.getDescription());
+        ps.setInt(4, item.getStartPrice());
+        ps.setInt(5, item.getTimeLeft());
+        ps.setDate(6, item.getStartBiddingDate());
+        ps.setDouble(7, item.isBuyItNow());
+        ps.setDouble(8, item.getBidIncrement());
+
+        return ps;
+    }
+
+    private PreparedStatement updateStatement(Connection con, Item item) throws SQLException {
+        String sql = "UPDATE maxim.Items SET seller_id = ?, title = ?, description = ?, start_price = ?, time_left = ?, start_bidding_date = TO_DATE(?, 'YYYY-MM-DD HH24:MI:SS'), buy_it_now = ?, bid_increment = ? WHERE item_id = ?";
+
+        PreparedStatement ps = con.prepareStatement(sql);
+        ps.setInt(1, item.getSeller());
+        ps.setString(2, item.getTitle());
+        ps.setString(3, item.getDescription());
+        ps.setInt(4, item.getStartPrice());
+        ps.setInt(5, item.getTimeLeft());
+        ps.setDate(6, item.getStartBiddingDate());
+        ps.setDouble(7, item.isBuyItNow());
+        ps.setDouble(8, item.getBidIncrement());
+
+        ps.setInt(9, item.getId());
+
         return ps;
     }
 }

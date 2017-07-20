@@ -9,6 +9,7 @@ import java.time.LocalDate;
  * Date: 13-Jul-17
  */
 public class ItemTable {
+    private int id;
     private String seller;
     private String buyer;
     private String bidIncrement;
@@ -19,6 +20,7 @@ public class ItemTable {
     private Date stopDate;
 
     public ItemTable(User seller, User buyer, Item item, String bid) {
+        this.id = item.getId();
         this.seller = seller.getFullName();
         this.title = item.getTitle();
         this.description = item.getDescription();
@@ -35,6 +37,14 @@ public class ItemTable {
             this.buyer = buyer.getFullName();
             this.stopDate = new Date(item.getStartBiddingDate().getTime() + item.getTimeLeft());
         }
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getSeller() {

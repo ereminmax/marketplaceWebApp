@@ -33,13 +33,14 @@ public class UserStore extends HttpServlet {
                 "<body>\n" +
                 "<h1>All items</h1>\n" +
                 "<table border=1><tr>\n" +
-                "<th>Title</th>\n<th>Description</th>\n<th>Seller</th><th>Start Price</th><th>Bid increment</th><th>Max Bid</th><th>Bidder</th><th>Stop Date</th><th>Bidding Form</th>\n</tr>\n");
+                "<th>Id</th>\n<th>Title</th>\n<th>Description</th>\n<th>Seller</th><th>Start Price</th><th>Bid increment</th><th>Max Bid</th><th>Bidder</th><th>Stop Date</th><th>Bidding Form</th>\n</tr>\n");
 
         ArrayList<ItemTable> itemTables = controller.getReadableItemList();
 
         for (ItemTable item: itemTables) {
             out.println("<tr>");
 
+            out.println("<td>" + item.getId() + "</td>");
             out.println("<td>" + item.getTitle() + "</td>");
             out.println("<td>" + item.getDescription() + "</td>");
             out.println("<td>" + item.getSeller() + "</td>");
@@ -49,14 +50,17 @@ public class UserStore extends HttpServlet {
             out.println("<td>" + item.getBuyer() + "</td>");
             out.println("<td>" + item.getStopDate() + "</td>");
 
-            out.println("<td><form method=\"post\" action=\"bid\">\n<label>Password</label>\n" +
+            out.println("<td><form method=\"post\" action=\"bid\">\n<label>Your Bid</label>\n" +
                     "    <input name=\"bidAmount\" type=\"text\" id=\"bidAmount\">\n" +
+                    "    <input type=\"hidden\" name=\"itemId\" value=\""+ item.getId() + "\">" +
                     "    <button type=\"submit\">Make bid</button>\n" +
                     "</form></td>");
 
             out.println("</tr>");
         }
 
-        out.println("</table></body>");
+        out.println("</table><form action=\"logout\" method=\"post\">\n" +
+                "  <button type=\"submit\" name=\"logout\">Logout</button>\n" +
+                "</form></body>");
     }
 }

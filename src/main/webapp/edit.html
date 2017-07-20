@@ -6,8 +6,10 @@
 </head>
 <body>
 <form method="post" action="edit">
+    <label>Id</label>
+    <input name="id" type="text" id="itemEditId">
     <label>Title</label>
-    <input name="title" type="text" id="login">
+    <input name="title" type="text" id="title">
     <label>Description</label>
     <input name="description" type="text" id="description">
     <label>Start Price</label>
@@ -16,9 +18,14 @@
     <input name="timeLeft" type="text" id="timeLeft">
     <label>Bid Increment</label>
     <input name="bidIncrement" type="text" id="bidIncrement">
+    <label>Start Date</label>
+    <input name="startDate" type="text" id="startDate">
     <label>Buy It Now</label>
     <input type="checkbox" name="buyItNow" value="1">
     <button type="submit">Edit or Add</button>
+</form>
+<form action="logout" method="post">
+<button type="submit" name="logout">Logout</button>
 </form>
 </body>
 </html>

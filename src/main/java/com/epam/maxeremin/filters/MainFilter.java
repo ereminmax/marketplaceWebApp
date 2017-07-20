@@ -15,7 +15,7 @@ import java.io.IOException;
  * Email: Maxim_Eremin@epam.com
  * Date: 19-Jul-17
  */
-@WebFilter(servletNames = {"Main"})
+@WebFilter(servletNames = {"Main", "userStore", "guestStore", "myItems"})
 public class MainFilter implements Filter{
 
     private MainController controller;
@@ -51,7 +51,7 @@ public class MainFilter implements Filter{
             }
         } else {
             // redirect a guest to login page
-            if (session.getAttribute("user") == null && requestURI.equals("edit") || requestURI.equals("showMyItems")) {
+            if (session.getAttribute("user") == null && (requestURI.equals("/edit") || requestURI.equals("/showMyItems") || requestURI.equals("/userStore"))) {
                 response.sendRedirect("login.html");
             } else {
                 filterChain.doFilter(servletRequest, servletResponse);

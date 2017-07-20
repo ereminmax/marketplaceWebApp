@@ -1,6 +1,6 @@
 package com.epam.maxeremin.model;
 
-import java.util.Date;
+import java.sql.Date;
 /**
  * Author: Maxim_Eremin
  * Email: Maxim_Eremin@epam.com
@@ -12,15 +12,15 @@ public class Item {
     private String title;
     private String description;
     private int startPrice;
-    private int timeLeft;
+    private Integer timeLeft;
     private Date startBiddingDate;
     private int buyItNow;
-    private double bidIncrement;
+    private Double bidIncrement;
 
     public Item() {
     }
 
-    public Item(int id, int seller, String title, String description, int startPrice, int timeLeft, Date startBiddingDate, int buyItNow, double bidIncrement) {
+    public Item(int id, int seller, String title, String description, int startPrice, Integer timeLeft, Date startBiddingDate, int buyItNow, Double bidIncrement) {
         this.id = id;
         this.seller = seller;
         this.title = title;

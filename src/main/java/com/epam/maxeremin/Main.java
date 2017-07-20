@@ -15,11 +15,11 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-@WebServlet(name = "Main", urlPatterns = {"/showAllItems", "/login", "/register", "/search", "/logout", "/edit", "/showMyItems"})
+@WebServlet(name = "Main", urlPatterns = {"/showAllItems", "/login", "/register", "/logout", "/edit", "/bid"})
 public class Main extends HttpServlet {
     private MainController controller = MainController.getInstance();
 
-    public void doGet(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws ServletException, IOException {
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     }
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -40,6 +40,25 @@ public class Main extends HttpServlet {
             case "/logout": {
                 session.removeAttribute("user");
                 response.sendRedirect( "login.html");
+                break;
+            }
+            case "/bid": {
+                if (controller.isHigher(request, response)) {
+                    controller.setMaxBid(request, response);
+                }
+                break;
+            }
+            case "/edit": {
+                if (!controller.isOwner(request, response)) {
+                    break;
+                }
+
+                if (controller.isItemExist(request, response)) {
+                    controller.updateItem(request, response);
+                } else {
+                    controller.addItem(request, response);
+                }
+                break;
             }
         }
     }
