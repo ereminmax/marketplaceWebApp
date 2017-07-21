@@ -13,9 +13,9 @@ import java.sql.SQLException;
 public class UserDAO implements IUserDAO {
 
     @Override
-    public void add(String login, String password, String fullName, String billingAddress) {
+    public void add(User user) {
         try (Connection con = OracleDAO.getDataSource().getConnection();
-             PreparedStatement ps = addStatement(con, fullName, billingAddress, login, password)) {
+             PreparedStatement ps = addStatement(con, user)) {
             ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -71,6 +71,23 @@ public class UserDAO implements IUserDAO {
     }
 
     @Override
+    public User findUserByLogin(String login) {
+        User user = null;
+
+        try (Connection con = OracleDAO.getDataSource().getConnection();
+             PreparedStatement ps = searchByName(con, login);
+             ResultSet rs = ps.executeQuery()) {
+            if (rs.next()) {
+                user = new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return user;
+    }
+
+    @Override
     public User getLoggedInUser(String login, String password) {
         User user = null;
 
@@ -104,6 +121,14 @@ public class UserDAO implements IUserDAO {
         return ps;
     }
 
+    private PreparedStatement searchByName(Connection con, String login) throws SQLException {
+        String sql = "SELECT * FROM maxim.Users WHERE full_name = ?";
+
+        PreparedStatement ps = con.prepareStatement(sql);
+        ps.setString(1, login);
+        return ps;
+    }
+
     private PreparedStatement searchById(Connection con, int id) throws SQLException {
         String sql = "SELECT * FROM maxim.Users WHERE user_id = ?";
 
@@ -112,14 +137,14 @@ public class UserDAO implements IUserDAO {
         return ps;
     }
 
-    private PreparedStatement addStatement(Connection con, String fullName, String billingAddress, String login, String password) throws SQLException {
+    private PreparedStatement addStatement(Connection con, User user) throws SQLException {
         String sql = "insert into maxim.users (full_name, billing_address, login, password) values (?, ?, ?, ?)";
 
         PreparedStatement ps = con.prepareStatement(sql);
-        ps.setString(1, fullName);
-        ps.setString(2, billingAddress);
-        ps.setString(3, login);
-        ps.setString(4, password);
+        ps.setString(1, user.getFullName());
+        ps.setString(2, user.getBillingAddress());
+        ps.setString(3, user.getLogin());
+        ps.setString(4, user.getPassword());
 
         return ps;
     }

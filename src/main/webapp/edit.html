@@ -7,9 +7,9 @@
 <body>
 <form method="post" action="edit">
     <label>Id</label>
-    <input name="id" type="text" id="itemEditId">
+    <input name="id" type="text" id="id" th:value="item.id">
     <label>Title</label>
-    <input name="title" type="text" id="title">
+    <input name="title" type="text" id="title" th:value="item.TITLE">
     <label>Description</label>
     <input name="description" type="text" id="description">
     <label>Start Price</label>

@@ -93,18 +93,22 @@ public class MainController {
         String fullName = request.getParameter("fullName");
         String billingAddress = request.getParameter("billingAddress");
 
-        userDAO.add(login, password, fullName, billingAddress);
+        User user = new User(0, fullName, billingAddress, login, password);
+
+        userDAO.add(user);
     }
 
     public boolean isHigher(HttpServletRequest request, HttpServletResponse response) {
         User user = (User) request.getSession(true).getAttribute("user");
         double bidAmount = Double.parseDouble(request.getParameter("bidAmount"));
-        int itemId = Integer.parseInt(request.getParameter("itemId"));
+        int itemId = Integer.parseInt(request.getParameter("id"));
 
         Item item = itemDAO.findItemById(itemId);
         Bid maxBid = bidDAO.getMaxBid(itemId);
 
-        if (maxBid.getBid() >= bidAmount || (bidAmount - maxBid.getBid() < item.getBidIncrement()) || user.getId() == item.getSeller() || item.isBuyItNow() == 1 || bidAmount <= item.getStartPrice()) {
+        if (maxBid == null && (user.getId() == item.getSeller() || bidAmount < item.getStartPrice())) {
+            return false;
+        } else if (maxBid.getBid() >= bidAmount || (bidAmount - maxBid.getBid() < item.getBidIncrement()) || user.getId() == item.getSeller() || bidAmount <= item.getStartPrice()) {
             return false;
         }
 
@@ -114,7 +118,7 @@ public class MainController {
     public void setMaxBid(HttpServletRequest request, HttpServletResponse response) {
         User user = (User) request.getSession(true).getAttribute("user");
         double bidAmount = Double.parseDouble(request.getParameter("bidAmount"));
-        int itemId = Integer.parseInt(request.getParameter("itemId"));
+        int itemId = Integer.parseInt(request.getParameter("id"));
         Bid bid = new Bid(0, user.getId(), itemId, bidAmount);
 
         bidDAO.add(bid);
@@ -122,7 +126,8 @@ public class MainController {
 
     public boolean isOwner(HttpServletRequest request, HttpServletResponse response) {
         User user = (User) request.getSession(true).getAttribute("user");
-        int itemId = Integer.parseInt(request.getParameter("itemEditId"));
+        String idParameter = request.getParameter("id");
+        int itemId = Integer.parseInt(idParameter);
         Item item = itemDAO.findItemById(itemId);
         if (item == null) {
             return false;
@@ -135,7 +140,7 @@ public class MainController {
     }
 
     public boolean isItemExist(HttpServletRequest request, HttpServletResponse response) {
-        int itemId = Integer.parseInt(request.getParameter("itemEditId"));
+        int itemId = Integer.parseInt(request.getParameter("id"));
         Item item = itemDAO.findItemById(itemId);
 
         if (item == null) {
@@ -147,45 +152,83 @@ public class MainController {
 
     public void updateItem(HttpServletRequest request, HttpServletResponse response) {
 
-        int itemId = Integer.parseInt(request.getParameter("itemEditId"));
-        String title = request.getParameter("title");
-        String description = request.getParameter("description");
-        int startPrice = Integer.parseInt(request.getParameter("startPrice"));
-        int timeLeft = Integer.parseInt(request.getParameter("timeLeft"));
-        double bidIncrement = Double.parseDouble(request.getParameter("bidIncrement"));
-        int buyItNow = Integer.parseInt(request.getParameter("buyItNow"));
-        Date startDate = Date.valueOf(request.getParameter("startDate"));
-
         User user = (User) request.getSession(true).getAttribute("user");
         Item item;
 
-        if (buyItNow == 1) {
-            item = new Item(itemId, user.getId(), title, description, startPrice, null, startDate, 1, null);
+        int itemId = Integer.parseInt(request.getParameter("id"));
+        String title = request.getParameter("title");
+        String description = request.getParameter("description");
+        int startPrice = Integer.parseInt(request.getParameter("startPrice"));
+
+        int timeLeft = 0;
+        double bidIncrement = 0;
+        if (request.getParameter("timeLeft") != "" || request.getParameter("bidIncrement") != "") {
+            timeLeft = Integer.parseInt(request.getParameter("timeLeft"));
+            bidIncrement = Double.parseDouble(request.getParameter("bidIncrement"));
+        }
+
+        String startDate = request.getParameter("startDate");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yy");
+        java.util.Date date;
+        java.sql.Date sqlStartDate = null;
+        try {
+            date = sdf.parse(startDate);
+            sqlStartDate = new java.sql.Date(date.getTime());
+        } catch (ParseException | NullPointerException e) {
+            e.printStackTrace();
+        }
+
+        boolean buyItNow = false;
+        if (request.getParameter("buyItNow") != null) {
+            buyItNow = true;
+        }
+
+        if (buyItNow) {
+            item = new Item(itemId, user.getId(), title, description, startPrice, timeLeft, sqlStartDate, 1, bidIncrement);
         } else {
-            item = new Item(itemId, user.getId(), title, description, startPrice, timeLeft, startDate, 0, bidIncrement);
+            item = new Item(itemId, user.getId(), title, description, startPrice, timeLeft, sqlStartDate, 0, bidIncrement);
         }
 
         itemDAO.edit(item);
     }
 
     public void addItem(HttpServletRequest request, HttpServletResponse response) {
-        User user = (User) request.getSession(true).getAttribute("user");
 
-        int itemId = Integer.parseInt(request.getParameter("itemEditId"));
+        User user = (User) request.getSession(true).getAttribute("user");
+        Item item;
+
+        int itemId = Integer.parseInt(request.getParameter("id"));
         String title = request.getParameter("title");
         String description = request.getParameter("description");
         int startPrice = Integer.parseInt(request.getParameter("startPrice"));
-        int timeLeft = Integer.parseInt(request.getParameter("timeLeft"));
-        double bidIncrement = Double.parseDouble(request.getParameter("bidIncrement"));
-        int buyItNow = Integer.parseInt(request.getParameter("buyItNow"));
-        Date startDate = Date.valueOf(request.getParameter("startDate"));
 
-        Item item;
+        int timeLeft = 0;
+        double bidIncrement = 0;
+        if (request.getParameter("timeLeft") != "" || request.getParameter("bidIncrement") != "") {
+            timeLeft = Integer.parseInt(request.getParameter("timeLeft"));
+            bidIncrement = Double.parseDouble(request.getParameter("bidIncrement"));
+        }
 
-        if (buyItNow == 1) {
-            item = new Item(itemId, user.getId(), title, description, startPrice, null, startDate, 1, null);
+        String startDate = request.getParameter("startDate");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yy");
+        java.util.Date date;
+        java.sql.Date sqlStartDate = null;
+        try {
+            date = sdf.parse(startDate);
+            sqlStartDate = new java.sql.Date(date.getTime());
+        } catch (ParseException | NullPointerException e) {
+            e.printStackTrace();
+        }
+
+        boolean buyItNow = false;
+        if (request.getParameter("buyItNow") != null) {
+            buyItNow = true;
+        }
+
+        if (buyItNow) {
+            item = new Item(itemId, user.getId(), title, description, startPrice, timeLeft, sqlStartDate, 1, bidIncrement);
         } else {
-            item = new Item(itemId, user.getId(), title, description, startPrice, timeLeft, startDate, 0, bidIncrement);
+            item = new Item(itemId, user.getId(), title, description, startPrice, timeLeft, sqlStartDate, 0, bidIncrement);
         }
 
         itemDAO.add(item);

@@ -12,15 +12,15 @@ public class Item {
     private String title;
     private String description;
     private int startPrice;
-    private Integer timeLeft;
+    private int timeLeft;
     private Date startBiddingDate;
     private int buyItNow;
-    private Double bidIncrement;
+    private double bidIncrement;
 
     public Item() {
     }
 
-    public Item(int id, int seller, String title, String description, int startPrice, Integer timeLeft, Date startBiddingDate, int buyItNow, Double bidIncrement) {
+    public Item(int id, int seller, String title, String description, int startPrice, int timeLeft, Date startBiddingDate, int buyItNow, double bidIncrement) {
         this.id = id;
         this.seller = seller;
         this.title = title;

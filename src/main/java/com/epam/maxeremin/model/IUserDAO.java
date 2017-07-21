@@ -6,11 +6,11 @@ package com.epam.maxeremin.model;
  * Date: 13-Jul-17
  */
 public interface IUserDAO {
-    void add(String login, String password, String fullName, String billingAddress);
+    void add(User user);
     User getSellerById(int id);
     boolean isRegistered(String login);
 
     User findBestBidder(int bidderId);
-
+    User findUserByLogin(String login);
     User getLoggedInUser(String login, String password);
 }

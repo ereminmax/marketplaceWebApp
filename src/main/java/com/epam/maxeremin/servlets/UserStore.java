@@ -52,7 +52,7 @@ public class UserStore extends HttpServlet {
 
             out.println("<td><form method=\"post\" action=\"bid\">\n<label>Your Bid</label>\n" +
                     "    <input name=\"bidAmount\" type=\"text\" id=\"bidAmount\">\n" +
-                    "    <input type=\"hidden\" name=\"itemId\" value=\""+ item.getId() + "\">" +
+                    "    <input type=\"hidden\" name=\"id\" value=\""+ item.getId() + "\">" +
                     "    <button type=\"submit\">Make bid</button>\n" +
                     "</form></td>");
 

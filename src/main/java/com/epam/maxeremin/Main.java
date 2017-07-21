@@ -29,9 +29,7 @@ public class Main extends HttpServlet {
 
         switch (requestURI) {
             case "/register": {
-                if (controller.isRegistered(request, response)) {
-                    // todo сообщение что данный логин зарегистрирован
-                } else {
+                if (!controller.isRegistered(request, response)) {
                     controller.register(request, response);
                     response.sendRedirect("/login.html");
                 }
@@ -49,15 +47,17 @@ public class Main extends HttpServlet {
                 break;
             }
             case "/edit": {
-                if (!controller.isOwner(request, response)) {
+                /*if (!controller.isOwner(request, response)) {
                     break;
-                }
+                }*/
 
                 if (controller.isItemExist(request, response)) {
                     controller.updateItem(request, response);
                 } else {
                     controller.addItem(request, response);
                 }
+
+                response.sendRedirect("index.html");
                 break;
             }
         }

@@ -94,10 +94,11 @@ public class ItemDAO implements IItemDAO {
     }
 
     private PreparedStatement searchStatement(Connection con, String keyWord) throws SQLException {
-        //String sql = "SELECT * FROM maxim.Items WHERE title LIKE '%?%'";
-        String sql = "SELECT * FROM maxim.Items WHERE title = ?";
+        String sql = "SELECT * FROM maxim.Items WHERE title LIKE ?";
+
+        String searchPattern = "%" + keyWord + "%";
         PreparedStatement ps = con.prepareStatement(sql);
-        ps.setString(1, keyWord);
+        ps.setString(1, searchPattern);
         return ps;
     }
 
@@ -115,10 +116,16 @@ public class ItemDAO implements IItemDAO {
         ps.setString(2, item.getTitle());
         ps.setString(3, item.getDescription());
         ps.setInt(4, item.getStartPrice());
-        ps.setInt(5, item.getTimeLeft());
         ps.setDate(6, item.getStartBiddingDate());
         ps.setDouble(7, item.isBuyItNow());
-        ps.setDouble(8, item.getBidIncrement());
+
+        if (item.getBidIncrement() == 0 || item.getTimeLeft() == 0) {
+            ps.setNull(5, Types.NULL);
+            ps.setNull(8, Types.NULL);
+        } else {
+            ps.setInt(5, item.getTimeLeft());
+            ps.setDouble(8, item.getBidIncrement());
+        }
 
         return ps;
     }
