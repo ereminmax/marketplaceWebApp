@@ -1,6 +1,5 @@
 package com.epam.maxeremin.model;
 
-import java.sql.Date;
 /**
  * Author: Maxim_Eremin
  * Email: Maxim_Eremin@epam.com
@@ -13,14 +12,14 @@ public class Item {
     private String description;
     private int startPrice;
     private int timeLeft;
-    private Date startBiddingDate;
+    private String startBiddingDate;
     private int buyItNow;
     private double bidIncrement;
 
     public Item() {
     }
 
-    public Item(int id, int seller, String title, String description, int startPrice, int timeLeft, Date startBiddingDate, int buyItNow, double bidIncrement) {
+    public Item(int id, int seller, String title, String description, int startPrice, int timeLeft, String startBiddingDate, int buyItNow, double bidIncrement) {
         this.id = id;
         this.seller = seller;
         this.title = title;
@@ -80,11 +79,11 @@ public class Item {
         this.timeLeft = timeLeft;
     }
 
-    public Date getStartBiddingDate() {
+    public String getStartBiddingDate() {
         return startBiddingDate;
     }
 
-    public void setStartBiddingDate(Date startBiddingDate) {
+    public void setStartBiddingDate(String startBiddingDate) {
         this.startBiddingDate = startBiddingDate;
     }
 

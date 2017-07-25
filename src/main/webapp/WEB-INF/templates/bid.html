@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Good Thymes Virtual Grocery</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" type="text/css" media="all" href="../../css/gtvg.css" th:href="@{/css/gtvg.css}" />
+</head>
+
+<body>
+
+<p>Bidding form</p>
+
+<form action="bid.html" th:action="@{/bid}" method="post">
+    <fieldset>
+        <input name="id" type="hidden" id="id" th:value="${id}">
+        <label>Bid amount</label>
+        <input name="bidAmount" type="text" id="bidAmount">
+        <input type="submit" value="Bid!" />
+    </fieldset>
+</form>
+
+<p>
+    <a href="home.html" th:href="@{/}">Return to home</a>
+</p>
+</body>
+</html>

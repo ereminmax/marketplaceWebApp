@@ -1,4 +1,6 @@
-package com.epam.maxeremin.model;
+package com.epam.maxeremin.dao;
+
+import com.epam.maxeremin.model.User;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

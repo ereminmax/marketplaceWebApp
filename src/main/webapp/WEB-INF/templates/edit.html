@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Good Thymes Virtual Grocery</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" type="text/css" media="all" href="../../css/gtvg.css" th:href="@{/css/gtvg.css}" />
+</head>
+
+<body>
+
+<p>Edit form</p>
+
+<form action="edit.html" th:action="@{/edit}">
+    <fieldset th:object="${item}">
+        <input type="hidden" name="id" id="id" th:value="*{id}">
+        <label>Title</label>
+        <input name="title" type="text" id="title" th:value="*{title}">
+        <label>Description</label>
+        <input name="description" type="text" id="description" th:value="*{description}">
+        <label>Start Price</label>
+        <input name="startPrice" type="text" id="startPrice" th:value="*{startprice}">
+        <label>Time Left</label>
+        <input name="timeLeft" type="text" id="timeLeft" th:value="*{timeleft}">
+        <label>Bid Increment</label>
+        <input name="bidIncrement" type="text" id="bidIncrement" th:value="*{bidincrement}">
+        <label>Start Date</label>
+        <input name="startDate" type="text" id="startDate" th:value="*{startBiddingDate}">
+        <label>Buy It Now</label>
+        <input type="checkbox" name="buyItNow" value="1">
+        <input type="submit" value="Edit!" />
+    </fieldset>
+</form>
+
+<p>
+    <a href="home.html" th:href="@{/}">Return to home</a>
+</p>
+
+</body>
+</html>

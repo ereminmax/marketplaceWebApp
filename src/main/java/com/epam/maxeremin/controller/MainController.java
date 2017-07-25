@@ -1,14 +1,13 @@
 package com.epam.maxeremin.controller;
 
+import com.epam.maxeremin.dao.*;
 import com.epam.maxeremin.model.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.sql.Date;
 
 /**
  * Author: Maxim_Eremin
@@ -168,15 +167,7 @@ public class MainController {
         }
 
         String startDate = request.getParameter("startDate");
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yy");
-        java.util.Date date;
-        java.sql.Date sqlStartDate = null;
-        try {
-            date = sdf.parse(startDate);
-            sqlStartDate = new java.sql.Date(date.getTime());
-        } catch (ParseException | NullPointerException e) {
-            e.printStackTrace();
-        }
+
 
         boolean buyItNow = false;
         if (request.getParameter("buyItNow") != null) {
@@ -184,9 +175,9 @@ public class MainController {
         }
 
         if (buyItNow) {
-            item = new Item(itemId, user.getId(), title, description, startPrice, timeLeft, sqlStartDate, 1, bidIncrement);
+            item = new Item(itemId, user.getId(), title, description, startPrice, timeLeft, startDate, 1, bidIncrement);
         } else {
-            item = new Item(itemId, user.getId(), title, description, startPrice, timeLeft, sqlStartDate, 0, bidIncrement);
+            item = new Item(itemId, user.getId(), title, description, startPrice, timeLeft, startDate, 0, bidIncrement);
         }
 
         itemDAO.edit(item);
@@ -210,15 +201,7 @@ public class MainController {
         }
 
         String startDate = request.getParameter("startDate");
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yy");
-        java.util.Date date;
-        java.sql.Date sqlStartDate = null;
-        try {
-            date = sdf.parse(startDate);
-            sqlStartDate = new java.sql.Date(date.getTime());
-        } catch (ParseException | NullPointerException e) {
-            e.printStackTrace();
-        }
+
 
         boolean buyItNow = false;
         if (request.getParameter("buyItNow") != null) {
@@ -226,9 +209,9 @@ public class MainController {
         }
 
         if (buyItNow) {
-            item = new Item(itemId, user.getId(), title, description, startPrice, timeLeft, sqlStartDate, 1, bidIncrement);
+            item = new Item(itemId, user.getId(), title, description, startPrice, timeLeft, startDate, 1, bidIncrement);
         } else {
-            item = new Item(itemId, user.getId(), title, description, startPrice, timeLeft, sqlStartDate, 0, bidIncrement);
+            item = new Item(itemId, user.getId(), title, description, startPrice, timeLeft, startDate, 0, bidIncrement);
         }
 
         itemDAO.add(item);

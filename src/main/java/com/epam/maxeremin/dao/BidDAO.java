@@ -1,4 +1,6 @@
-package com.epam.maxeremin.model;
+package com.epam.maxeremin.dao;
+
+import com.epam.maxeremin.model.Bid;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,7 +12,7 @@ import java.sql.SQLException;
  * Email: Maxim_Eremin@epam.com
  * Date: 12-Jul-17
  */
-public class BidDAO implements IBidDAO{
+public class BidDAO implements IBidDAO {
 
     @Override
     public void add(Bid bid) {

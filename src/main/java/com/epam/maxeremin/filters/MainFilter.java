@@ -15,6 +15,27 @@ import java.io.IOException;
  * Email: Maxim_Eremin@epam.com
  * Date: 19-Jul-17
  */
+/*
+<!DOCTYPE web-app PUBLIC
+ "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+ "http://java.sun.com/dtd/web-app_2_3.dtd" >
+
+<web-app>
+  <display-name>Archetype Created Web Application</display-name>
+  <welcome-file-list>
+    <welcome-file>
+      index.html
+    </welcome-file>
+  </welcome-file-list>
+
+  <resource-ref>
+    <description>Oracle datasource</description>
+    <res-ref-name>jdbc/mpdb</res-ref-name>
+    <res-type>javax.sql.DataSource</res-type>
+    <res-auth>Container</res-auth>
+  </resource-ref>
+</web-app>
+*/
 @WebFilter(servletNames = {"Main", "userStore", "guestStore", "myItems"})
 public class MainFilter implements Filter{
 
@@ -64,3 +85,4 @@ public class MainFilter implements Filter{
 
     }
 }
+

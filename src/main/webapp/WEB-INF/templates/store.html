@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Good Thymes Virtual Grocery</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" type="text/css" media="all" href="../../css/gtvg.css" th:href="@{/css/gtvg.css}" />
+</head>
+<body>
+<h1>Product list</h1>
+
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>TITLE</th>
+        <th>DESCRIPTION</th>
+        <th>SELLER</th>
+        <th>START PRICE</th>
+        <th>BID INCREMENT</th>
+        <th>MAX BID</th>
+        <th>BIDDER</th>
+        <th>STOP DATE</th>
+        <th>BIDDING FORM</th>
+        <th>EDIT</th>
+    </tr>
+    </thead>
+    <tbody th:remove="all-but-first">
+    <tr th:each="prod : ${prods}" th:class="${prodStat.odd}? 'odd'"
+        th:if="${session.user != null and showMyItems != null} ? ${#strings.equals(session.user.fullname, prod.seller)} : ${#strings.contains(prod.title, keyWord)}">
+        <td th:text="${prod.id}">1</td>
+        <td th:text="${prod.title}">title</td>
+        <td th:text="${prod.description}">description</td>
+        <td th:text="${prod.seller}">seller</td>
+        <td th:text="${prod.startprice}">2.41</td>
+        <td th:text="${prod.bidincrement}">2.41</td>
+        <td th:text="${prod.bid}">2.41</td>
+        <td th:text="${prod.buyer}">fullName</td>
+        <td th:text="${prod.stopdate}">24-jul-17</td>
+        <td>
+            <a href="bid.html"
+               th:href="@{/bid(id=${prod.id})}"
+               th:unless="${#strings.equals(session.user.fullname, prod.seller)}">Bid</a>
+        </td>
+        <td>
+            <a href="edit.html"
+               th:href="@{/edit(id=${prod.id})}"
+               th:if="${#strings.equals(session.user.fullname, prod.seller)}">Edit</a>
+        </td>
+    </tr>
+    <tr class="odd">
+        <td>1</td>
+        <td>title</td>
+        <td>description</td>
+        <td>seller</td>
+        <td>123</td>
+        <td>321</td>
+        <td>123</td>
+        <td>fullname</td>
+        <td>24-jul-17</td>
+        <td><a href="bid.html">Bid</a></td>
+        <td><a href="edit.html">Edit</a></td>
+    </tr>
+    </tbody>
+</table>
+<p>
+    <a href="home.html" th:href="@{/}">Return to home</a>
+</p>
+</body>
+</html>

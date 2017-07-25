@@ -1,6 +1,8 @@
 package com.epam.maxeremin.model;
 
 import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 
 /**
@@ -25,17 +27,24 @@ public class ItemTable {
         this.title = item.getTitle();
         this.description = item.getDescription();
         this.startPrice = Integer.toString(item.getStartPrice());
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MMM-yy");
 
+        java.util.Date date = null;
+        try {
+            date = simpleDateFormat.parse(item.getStartBiddingDate());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         if (item.isBuyItNow() == 1) {
             this.bid = "";
             this.bidIncrement = "";
             this.buyer = "";
-            this.stopDate = new Date(item.getStartBiddingDate().getTime());
+            this.stopDate = new Date(date.getTime());
         } else {
             this.bid = bid;
             this.bidIncrement = Double.toString(item.getBidIncrement());
             this.buyer = buyer.getFullName();
-            this.stopDate = new Date(item.getStartBiddingDate().getTime() + item.getTimeLeft());
+            this.stopDate = new Date(date.getTime() + item.getTimeLeft());
         }
     }
 

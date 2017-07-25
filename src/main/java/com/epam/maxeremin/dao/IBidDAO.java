@@ -1,4 +1,6 @@
-package com.epam.maxeremin.model;
+package com.epam.maxeremin.dao;
+
+import com.epam.maxeremin.model.Bid;
 
 /**
  * Author: Maxim_Eremin

@@ -6,10 +6,10 @@ package com.epam.maxeremin.servlets;
  * Date: 19-Jul-17
  */
 import com.epam.maxeremin.controller.MainController;
-import com.epam.maxeremin.model.IUserDAO;
+import com.epam.maxeremin.dao.IUserDAO;
 import com.epam.maxeremin.model.ItemTable;
 import com.epam.maxeremin.model.User;
-import com.epam.maxeremin.model.UserDAO;
+import com.epam.maxeremin.dao.UserDAO;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

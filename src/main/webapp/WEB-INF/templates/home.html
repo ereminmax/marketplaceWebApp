@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Good Thymes Virtual Grocery</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" type="text/css" media="all" href="../../css/gtvg.css" th:href="@{/css/gtvg.css}" />
+</head>
+
+<body>
+
+<div>
+    <img src="../../images/marketplace.png" alt="GTVG logo" title="GTVG logo"
+         th:src="@{/images/marketplace.png}" th:alt-title="#{logo}" />
+</div>
+
+<p>Welcome to our online marketplace, <span th:text="${session.user != null} ? ${session.user.FullName} : 'Guest'">template file</span>.</p>
+<form action="logout.html" th:action="@{/logout}" th:if="${session.user != null}">
+    <button class="button button2">Logout</button>
+</form>
+
+<p>Login</p>
+
+<form action="login.html" th:action="@{/login}" method="post">
+    <fieldset>
+        <label>Login</label>
+        <input name="login" type="text" id="login">
+        <label>Password</label>
+        <input name="password" type="text" id="password">
+        <input type="submit" value="Login!" />
+    </fieldset>
+</form>
+
+<p>Search</p>
+
+<form action="store.html" th:action="@{/store}">
+    <fieldset>
+        <label>Key Word</label>
+        <input name="keyWord" type="text" id="keyWord">
+        <input type="submit" value="Search!" />
+    </fieldset>
+</form>
+
+<p>Please select an option</p>
+
+<ol>
+    <li><a href="store.html" th:href="@{/store}">Go to the store</a></li>
+    <li><a href="register.html" th:href="@{/register}">Register</a></li>
+    <li><a href="store.html" th:href="@{/store?showMyItems=1}">Show my items</a></li>
+</ol>
+
+<p>Now you are looking at a <span th:text="'working web application'">template file</span>.</p>
+
+</body>
+
+</html>

@@ -1,9 +1,7 @@
-package com.epam.maxeremin.model;
+package com.epam.maxeremin.dao;
 
 import javax.naming.*;
 import javax.sql.DataSource;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Author: Maxim_Eremin
