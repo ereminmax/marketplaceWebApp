@@ -102,4 +102,39 @@ public class Item {
     public void setBidIncrement(double bidIncrement) {
         this.bidIncrement = bidIncrement;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Item item = (Item) o;
+
+        if (id != item.id) return false;
+        if (seller != item.seller) return false;
+        if (startPrice != item.startPrice) return false;
+        if (timeLeft != item.timeLeft) return false;
+        if (buyItNow != item.buyItNow) return false;
+        if (Double.compare(item.bidIncrement, bidIncrement) != 0) return false;
+        if (!title.equals(item.title)) return false;
+        if (description != null ? !description.equals(item.description) : item.description != null) return false;
+        return startBiddingDate.equals(item.startBiddingDate);
+    }
+
+    @Override
+    public int hashCode() {
+        int result;
+        long temp;
+        result = id;
+        result = 31 * result + seller;
+        result = 31 * result + title.hashCode();
+        result = 31 * result + (description != null ? description.hashCode() : 0);
+        result = 31 * result + startPrice;
+        result = 31 * result + timeLeft;
+        result = 31 * result + startBiddingDate.hashCode();
+        result = 31 * result + buyItNow;
+        temp = Double.doubleToLongBits(bidIncrement);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        return result;
+    }
 }

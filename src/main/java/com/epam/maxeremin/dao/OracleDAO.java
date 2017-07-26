@@ -10,13 +10,8 @@ import javax.sql.DataSource;
  */
 public class OracleDAO {
     private static DataSource dataSource;
-    private static OracleDAO ourInstance = new OracleDAO();
 
-    public static OracleDAO getInstance() {
-        return ourInstance;
-    }
-
-    private OracleDAO() {
+    private static void jndiDataSource() {
         try {
             Context context = new InitialContext();
             dataSource = (DataSource) context.lookup("java:comp/env/jdbc/mpdb");
@@ -26,6 +21,13 @@ public class OracleDAO {
     }
 
     public static DataSource getDataSource() {
+        if (dataSource == null) {
+            jndiDataSource();
+        }
         return dataSource;
+    }
+
+    public static void setDataSource(DataSource dataSource) {
+        OracleDAO.dataSource = dataSource;
     }
 }
