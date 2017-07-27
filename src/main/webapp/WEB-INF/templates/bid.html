@@ -5,13 +5,14 @@
     <title>Good Thymes Virtual Grocery</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" type="text/css" media="all" href="../../css/gtvg.css" th:href="@{/css/gtvg.css}" />
+    <script src="../js/validation.js" th:src="@{../js/validation.js}"></script>
 </head>
 
 <body>
 
 <p>Bidding form</p>
 
-<form action="bid.html" th:action="@{/bid}" method="post">
+<form name="bidForm" onsubmit="return validateBid()" action="bid.html" th:action="@{/bid}" method="post">
     <fieldset>
         <input name="id" type="hidden" id="id" th:value="${id}">
         <label>Bid amount</label>

@@ -5,13 +5,14 @@
     <title>Good Thymes Virtual Grocery</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" type="text/css" media="all" href="../../css/gtvg.css" th:href="@{/css/gtvg.css}" />
+    <script src="../js/validation.js" th:src="@{../js/validation.js}"></script>
 </head>
 
 <body>
 
 <p>Login</p>
 
-<form action="register.html" th:action="@{/register}" method="post">
+<form name="registrationForm" onsubmit="return validateRegistration()" action="register.html" th:action="@{/register}" method="post">
     <fieldset>
         <label>Full Name</label>
         <input name="fullName" type="text" id="fullName">

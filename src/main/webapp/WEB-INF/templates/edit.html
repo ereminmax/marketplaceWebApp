@@ -5,13 +5,14 @@
     <title>Good Thymes Virtual Grocery</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" type="text/css" media="all" href="../../css/gtvg.css" th:href="@{/css/gtvg.css}" />
+    <script src="../js/validation.js" th:src="@{../js/validation.js}"></script>
 </head>
 
 <body>
 
 <p>Edit form</p>
 
-<form action="edit.html" th:action="@{/edit}">
+<form name="editForm" onsubmit="return validateEdit()" action="edit.html" th:action="@{/edit}">
     <fieldset th:object="${item}">
         <input type="hidden" name="id" id="id" th:value="*{id}">
         <label>Title</label>
@@ -27,7 +28,7 @@
         <label>Start Date</label>
         <input name="startDate" type="text" id="startDate" th:value="*{startBiddingDate}">
         <label>Buy It Now</label>
-        <input type="checkbox" name="buyItNow" value="1">
+        <input class="messageCheckbox" type="checkbox" name="buyItNow" value="1">
         <input type="submit" value="Edit!" />
     </fieldset>
 </form>

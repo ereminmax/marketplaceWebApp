@@ -6,6 +6,7 @@
     <title>Good Thymes Virtual Grocery</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" type="text/css" media="all" href="../../css/gtvg.css" th:href="@{/css/gtvg.css}" />
+    <script src="../js/validation.js" th:src="@{../js/validation.js}"></script>
 </head>
 
 <body>
@@ -22,7 +23,7 @@
 
 <p>Login</p>
 
-<form action="login.html" th:action="@{/login}" method="post">
+<form name="loginForm" onsubmit="return validateLogin()" action="login.html" th:action="@{/login}" method="post">
     <fieldset>
         <label>Login</label>
         <input name="login" type="text" id="login">
@@ -34,7 +35,7 @@
 
 <p>Search</p>
 
-<form action="store.html" th:action="@{/store}">
+<form name="searchForm" onsubmit="return validateSearch()" action="store.html" th:action="@{/store}">
     <fieldset>
         <label>Key Word</label>
         <input name="keyWord" type="text" id="keyWord">
