@@ -52,4 +52,29 @@ public class Bid {
     public void setBid(double bid) {
         this.bid = bid;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Bid bid1 = (Bid) o;
+
+        if (id != bid1.id) return false;
+        if (bidder != bid1.bidder) return false;
+        if (item != bid1.item) return false;
+        return Double.compare(bid1.bid, bid) == 0;
+    }
+
+    @Override
+    public int hashCode() {
+        int result;
+        long temp;
+        result = id;
+        result = 31 * result + bidder;
+        result = 31 * result + item;
+        temp = Double.doubleToLongBits(bid);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        return result;
+    }
 }

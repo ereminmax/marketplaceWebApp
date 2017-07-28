@@ -9,10 +9,9 @@ import com.epam.maxeremin.model.User;
  */
 public interface IUserDAO {
     void add(User user);
-    User getSellerById(int id);
+    User getUserById(int id);
     boolean isRegistered(String login);
 
-    User findBestBidder(int bidderId);
     User findUserByLogin(String login);
     User getLoggedInUser(String login, String password);
 }

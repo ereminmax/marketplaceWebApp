@@ -96,7 +96,7 @@ public class GTVGFilter implements Filter {
             // This prevents triggering engine executions for resource URLs
             if (request.getRequestURI().startsWith("/css") ||
                     request.getRequestURI().startsWith("/images") ||
-                    request.getRequestURI().startsWith("/favicon")) {
+                    request.getRequestURI().startsWith("/js")) {
                 return false;
             }
 

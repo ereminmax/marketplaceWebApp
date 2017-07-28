@@ -41,16 +41,15 @@ function validateEdit() {
   var timeLeft = document.forms["editForm"]["timeLeft"].value;
   var bidIncrement = document.forms["editForm"]["bidIncrement"].value;
   var startDate = document.forms["editForm"]["startDate"].value;
-  //var isBuyItNow =  = document.getElementById("buyItNow").checked;
-  //var isBuyItNow = document.querySelector('.messageCheckbox:checked').value;
+  var isBuyItNow = document.forms["editForm"]["buyItNow"].checked;
 
   if (title == "" || description == "" || startPrice == "" || startDate == "") {
     alert("Fill this fields: title, description, startPrice, startDate");
     return false;
   }
 
-  /*if (isBuyItNow != "1" && (bidIncrement == "" || timeLeft == "")) {
-    alert("You have to specify bid increment and time left for Auction type of a deal");
-    return false;
-  }*/
+  if (isBuyItNow == false && (bidIncrement == "" || timeLeft == "")) {
+        alert("You have to specify bid increment and time left for Auction type of a deal");
+        return false;
+  }
 }

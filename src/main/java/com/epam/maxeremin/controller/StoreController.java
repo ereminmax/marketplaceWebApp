@@ -29,11 +29,11 @@ public class StoreController implements IGTVGController {
 
         for (Item item: items) {
             Bid maxBid = DAOFactory.getInstance().getBidDAO().getMaxBid(item.getId());
-            User seller = DAOFactory.getInstance().getUserDAO().getSellerById(item.getSeller());
+            User seller = DAOFactory.getInstance().getUserDAO().getUserById(item.getSeller());
 
             if (maxBid != null) {
                 int maxBidder = maxBid.getBidder();
-                User bidder = DAOFactory.getInstance().getUserDAO().findBestBidder(maxBidder);
+                User bidder = DAOFactory.getInstance().getUserDAO().getUserById(maxBidder);
                 itemTables.add(new ItemTable(seller, bidder, item, Double.toString(maxBid.getBid())));
             } else {
                 itemTables.add(new ItemTable(seller, seller, item, ""));

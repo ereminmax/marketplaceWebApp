@@ -25,7 +25,7 @@ public class UserDAO implements IUserDAO {
     }
 
     @Override
-    public User getSellerById(int id) {
+    public User getUserById(int id) {
         User user = null;
 
         try (Connection con = OracleDAO.getDataSource().getConnection();
@@ -56,28 +56,11 @@ public class UserDAO implements IUserDAO {
     }
 
     @Override
-    public User findBestBidder(int bidderId) {
-        User user = null;
-
-        try (Connection con = OracleDAO.getDataSource().getConnection();
-             PreparedStatement ps = searchById(con, bidderId);
-             ResultSet rs = ps.executeQuery()) {
-
-            if (rs.next()) user = new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5));
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return user;
-    }
-
-    @Override
     public User findUserByLogin(String login) {
         User user = null;
 
         try (Connection con = OracleDAO.getDataSource().getConnection();
-             PreparedStatement ps = searchByName(con, login);
+             PreparedStatement ps = searchByLogin(con, login);
              ResultSet rs = ps.executeQuery()) {
             if (rs.next()) {
                 user = new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5));
@@ -123,8 +106,8 @@ public class UserDAO implements IUserDAO {
         return ps;
     }
 
-    private PreparedStatement searchByName(Connection con, String login) throws SQLException {
-        String sql = "SELECT * FROM maxim.Users WHERE full_name = ?";
+    private PreparedStatement searchByLogin(Connection con, String login) throws SQLException {
+        String sql = "SELECT * FROM maxim.Users WHERE login = ?";
 
         PreparedStatement ps = con.prepareStatement(sql);
         ps.setString(1, login);

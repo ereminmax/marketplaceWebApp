@@ -62,4 +62,29 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        User user = (User) o;
+
+        if (id != user.id) return false;
+        if (fullName != null ? !fullName.equals(user.fullName) : user.fullName != null) return false;
+        if (billingAddress != null ? !billingAddress.equals(user.billingAddress) : user.billingAddress != null)
+            return false;
+        if (!login.equals(user.login)) return false;
+        return password.equals(user.password);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id;
+        result = 31 * result + (fullName != null ? fullName.hashCode() : 0);
+        result = 31 * result + (billingAddress != null ? billingAddress.hashCode() : 0);
+        result = 31 * result + login.hashCode();
+        result = 31 * result + password.hashCode();
+        return result;
+    }
 }
