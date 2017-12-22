@@ -40,7 +40,7 @@
         <td>
             <a href="bid.html"
                th:href="@{/bid(id=${prod.id})}"
-               th:unless="${#strings.equals(session.user.fullname, prod.seller)}">Bid</a>
+               th:if="not ${#strings.equals(session.user.fullname, prod.seller)} and ${#dates.createNow().getTime() - prod.stopdate.getTime() < 0}">Bid</a>
         </td>
         <td>
             <a href="edit.html"
