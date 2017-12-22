@@ -65,7 +65,7 @@ public class GTVGFilter implements Filter {
 
     public void doFilter(final ServletRequest request, final ServletResponse response,
                          final FilterChain chain) throws IOException, ServletException {
-        addUserToSession((HttpServletRequest)request);
+        //addUserToSession((HttpServletRequest)request);
 
         if (!process((HttpServletRequest)request, (HttpServletResponse)response)) {
 
@@ -130,7 +130,7 @@ public class GTVGFilter implements Filter {
             response.setDateHeader("Expires", 0);
 
             if (request.getSession().getAttribute("user") == null && (requestURI.equals("/edit") ||
-                    requestURI.equals("/bid") || requestURI.equals("/showMyItems") || requestURI.equals("/store"))) {
+                    requestURI.equals("/bid") || requestURI.equals("/showMyItems"))) {
                 IGTVGController loginController = new LoginController();
                 loginController.process(
                         request, response, this.servletContext, templateEngine);

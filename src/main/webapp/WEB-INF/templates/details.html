@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Good Thymes Virtual Grocery</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" type="text/css" media="all" href="../../css/gtvg.css" th:href="@{/css/gtvg.css}" />
+</head>
+<body>
+<h1>Details</h1>
+
+<table>
+    <thead>
+    <tr>
+        <th>Attribute</th>
+        <th>Value</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>ID</td>
+        <td th:text="${prod.id}">1</td>
+    </tr>
+    <tr>
+        <td>Title</td>
+        <td th:text="${prod.title}">title</td>
+    </tr>
+    <tr>
+        <td>description</td>
+        <td th:text="${prod.description}">description</td>
+    </tr>
+    <tr>
+        <td>seller</td>
+        <td th:text="${prod.seller}">seller</td>
+    </tr>
+    <tr>
+        <td>startprice</td>
+        <td th:text="${prod.startprice}">2.41</td>
+    </tr>
+    <tr>
+        <td>bidincrement</td>
+        <td th:text="${prod.bidincrement} == null ? ${prod.bidincrement} : 'no value'">2.41</td>
+    </tr>
+    <tr>
+        <td>bid</td>
+        <td th:text="${prod.bid} == null ? ${prod.bid} : 'no value'">2.41</td>
+    </tr>
+    <tr>
+        <td>buyer</td>
+        <td th:text="${prod.buyer} == null ? ${prod.buyer} : 'no value'">fullName</td>
+    </tr>
+    <tr>
+        <td>stopdate</td>
+        <td th:text="${prod.stopdate} == null ? ${prod.stopdate} : 'no value'">24-jul-17</td>
+    </tr>
+    </tbody>
+</table>
+<p>
+    <a href="home.html" th:href="@{/}">Return to home</a>
+</p>
+</body>
+</html>

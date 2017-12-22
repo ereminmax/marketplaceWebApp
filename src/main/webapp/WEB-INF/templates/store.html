@@ -21,8 +21,9 @@
         <th>MAX BID</th>
         <th>BIDDER</th>
         <th>STOP DATE</th>
-        <th>BIDDING FORM</th>
-        <th>EDIT</th>
+        <th th:if="${session.user != null}">BIDDING FORM</th>
+        <th th:if="${session.user != null}">EDIT</th>
+        <th>DETAILS</th>
     </tr>
     </thead>
     <tbody th:remove="all-but-first">
@@ -37,15 +38,19 @@
         <td th:text="${prod.bid}">2.41</td>
         <td th:text="${prod.buyer}">fullName</td>
         <td th:text="${prod.stopdate}">24-jul-17</td>
-        <td>
+        <td th:if="${session.user != null}">
             <a href="bid.html"
                th:href="@{/bid(id=${prod.id})}"
                th:if="not ${#strings.equals(session.user.fullname, prod.seller)} and ${#dates.createNow().getTime() - prod.stopdate.getTime() < 0}">Bid</a>
         </td>
-        <td>
+        <td th:if="${session.user != null}">
             <a href="edit.html"
                th:href="@{/edit(id=${prod.id})}"
                th:if="${#strings.equals(session.user.fullname, prod.seller)}">Edit</a>
+        </td>
+        <td>
+            <a href="details.html"
+               th:href="@{/details(id=${prod.id})}">Details</a>
         </td>
     </tr>
     <tr class="odd">
@@ -60,6 +65,7 @@
         <td>24-jul-17</td>
         <td><a href="bid.html">Bid</a></td>
         <td><a href="edit.html">Edit</a></td>
+        <td><a href="details.html">Details</a></td>
     </tr>
     </tbody>
 </table>

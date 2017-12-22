@@ -55,6 +55,7 @@ public class MarketplaceApp {
         this.controllersByURL.put("/register", new RegisterController());
         this.controllersByURL.put("/bid", new BidController());
         this.controllersByURL.put("/logout", new LogoutController());
+        this.controllersByURL.put("/details", new DetailsController());
 
     }
 
