@@ -24,6 +24,10 @@ public class StoreController implements IGTVGController {
 
         WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
 
+        if (ctx.getVariable("prods") != null) {
+            ctx.removeVariable("prods");
+        }
+
         ArrayList<ItemTable> itemTables = new ArrayList<>();
         ArrayList<Item> items = DAOFactory.getInstance().getItemDAO().getAll();
 

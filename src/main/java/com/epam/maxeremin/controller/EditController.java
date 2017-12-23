@@ -15,6 +15,10 @@ import com.epam.maxeremin.model.User;
 import org.thymeleaf.ITemplateEngine;
 import org.thymeleaf.context.WebContext;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class EditController implements IGTVGController {
 
 
@@ -46,6 +50,17 @@ public class EditController implements IGTVGController {
             final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
             ctx.setVariable("item", item);
 
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MMM-yy");
+
+            java.util.Date date = null;
+            try {
+                date = simpleDateFormat.parse(item.getStartBiddingDate());
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            ctx.setVariable("startDate2", date);
+
             templateEngine.process("edit", ctx, response.getWriter());
         }
 
@@ -76,7 +91,7 @@ public class EditController implements IGTVGController {
         int timeLeft = 0;
         double bidIncrement = 0;
         if (request.getParameter("timeLeft") != "" || request.getParameter("bidIncrement") != "") {
-            timeLeft = Integer.parseInt(request.getParameter("timeLeft"));
+            timeLeft = Integer.parseInt(request.getParameter("timeLeft")) * 24 * 60 * 60 * 1000;
             bidIncrement = Double.parseDouble(request.getParameter("bidIncrement"));
         }
 

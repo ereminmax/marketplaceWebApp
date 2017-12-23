@@ -65,7 +65,7 @@ public class GTVGFilter implements Filter {
 
     public void doFilter(final ServletRequest request, final ServletResponse response,
                          final FilterChain chain) throws IOException, ServletException {
-        //addUserToSession((HttpServletRequest)request);
+        addUserToSession((HttpServletRequest)request);
 
         if (!process((HttpServletRequest)request, (HttpServletResponse)response)) {
 

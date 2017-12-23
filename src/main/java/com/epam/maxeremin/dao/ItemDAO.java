@@ -35,6 +35,7 @@ public class ItemDAO implements IItemDAO {
         try (Connection con = OracleDAO.getDataSource().getConnection();
              PreparedStatement ps = updateStatement(con, item)) {
             ps.executeUpdate();
+            con.commit();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -175,7 +176,7 @@ public class ItemDAO implements IItemDAO {
     }
 
     private PreparedStatement updateStatement(Connection con, Item item) throws SQLException {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yy");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         java.util.Date date;
         java.sql.Date sqlStartDate = null;
         try {
@@ -191,17 +192,21 @@ public class ItemDAO implements IItemDAO {
                 "start_bidding_date = TO_DATE(?, 'YYYY-MM-DD HH24:MI:SS'), buy_it_now = ?, bid_increment = ? " +
                 "WHERE item_id = ?";
 
+        String stdate1 = sqlStartDate.toString();
+        String stdate2 = item.getStartBiddingDate();
+
         PreparedStatement ps = con.prepareStatement(sql);
         ps.setInt(1, item.getSeller());
         ps.setString(2, item.getTitle());
         ps.setString(3, item.getDescription());
         ps.setInt(4, item.getStartPrice());
         ps.setInt(5, item.getTimeLeft());
-        ps.setDate(6, sqlStartDate);
+        ps.setString(6, stdate2);
         ps.setDouble(7, item.isBuyItNow());
         ps.setDouble(8, item.getBidIncrement());
 
         ps.setInt(9, item.getId());
+        System.out.println(sql);
 
         return ps;
     }

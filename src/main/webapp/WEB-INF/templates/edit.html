@@ -21,12 +21,12 @@
         <input name="description" type="text" id="description" th:value="*{description}">
         <label>Start Price</label>
         <input name="startPrice" type="text" id="startPrice" th:value="*{startprice}">
-        <label>Time Left</label>
+        <label>Time Left, days</label>
         <input name="timeLeft" type="text" id="timeLeft" th:value="*{timeleft}">
         <label>Bid Increment</label>
         <input name="bidIncrement" type="text" id="bidIncrement" th:value="*{bidincrement}">
         <label>Start Date</label>
-        <input name="startDate" type="text" id="startDate" th:value="*{startBiddingDate}">
+        <input name="startDate" type="date" id="startDate" th:value="${startDate2}" th:placeholder="${startDate2}">
         <label>Buy It Now</label>
         <input type="checkbox" name="buyItNow" value="1" id="buyItNow">
         <input type="submit" value="Edit!" />
